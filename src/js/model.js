@@ -29,7 +29,8 @@ class Model {
   }
 
   getSearchItem(value) {
-    const foundItems = this.data.filter(item => item.webTitle.toLowerCase().includes(value.toLowerCase()));
+    const foundItems = this.data.filter(item => item.webTitle.toLowerCase()
+      .includes(value.toLowerCase()));
 
     return foundItems;
   }
