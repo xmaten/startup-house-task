@@ -16,3 +16,19 @@ test('It filters by title', () => {
     },
   ]);
 });
+
+test('It filters by title if value is in mixed case', () => {
+  const model = new Model(mockData);
+  const value = 'ShE';
+
+  const filtered = model.getSearchItem(value).map(item => ({ webTitle: item.webTitle }));
+
+  expect(filtered).toEqual([
+    {
+      webTitle: 'Sheffield United v Arsenal: Premier League – live!',
+    },
+    {
+      webTitle: 'Brexit: full text of withdrawal agreement bill published - live news',
+    },
+  ]);
+});
