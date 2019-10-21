@@ -33,6 +33,15 @@ class Controller {
     const newReadLaterList = this.model.addToReadLater(...chosenNews);
 
     this.view.renderReadLaterList(newReadLaterList);
+    localStorage.setItem('readLater', JSON.stringify(newReadLaterList));
+  }
+
+  restoreReadLaterList() {
+    if (localStorage.getItem('readLater')) {
+      const readLater = JSON.parse(localStorage.getItem('readLater'));
+
+      this.view.renderReadLaterList(readLater);
+    }
   }
 }
 
