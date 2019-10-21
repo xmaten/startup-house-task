@@ -7,7 +7,7 @@ class View {
       const parsedDate = new Date(article.webPublicationDate).toLocaleDateString('pl-PL');
 
       listItem.innerHTML = `
-        <article class="news" id="${article.id}">
+        <article class="news" data-id="${article.id}">
           <header>
             <h3>${article.webTitle}</h3>
           </header>
@@ -32,7 +32,18 @@ class View {
     document.addEventListener('click', (e) => {
       if (e.target.classList.contains('js-addToReadLater')) {
         const clickedEl = e.target;
-        const newsId = clickedEl.parentNode.parentNode.id;
+        const newsId = clickedEl.parentNode.parentNode.getAttribute('data-id');
+
+        callback(newsId);
+      }
+    });
+  }
+
+  bindHandleRemoveReadLater(callback) {
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('js-removeFromReadLater')) {
+        const clickedEl = e.target;
+        const newsId = clickedEl.parentNode.getAttribute('data-id');
 
         callback(newsId);
       }
@@ -48,9 +59,9 @@ class View {
 
       listItem.innerHTML = `
         <h4 class="readLaterItem-title">${n.webTitle}</h4>
-        <section>
+        <section data-id="${n.id}">
           <a href="${n.webUrl}" target="_blank" rel="noopener" class="button button-clear">Read</a>
-          <button class="button button-clear">Remove</button>
+          <button class="button button-clear js-removeFromReadLater">Remove</button>
         </section>
       `;
 

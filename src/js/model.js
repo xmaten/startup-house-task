@@ -19,6 +19,14 @@ class Model {
 
     return this.readLater;
   }
+
+  removeFromReadLater(news) {
+    const filtered = this.readLater.filter(item => item.id !== news.id);
+
+    this.readLater = filtered;
+
+    return this.readLater;
+  }
 }
 
 export default Model;
