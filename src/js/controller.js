@@ -12,7 +12,16 @@ class Controller {
 
     fetch(`https://content.guardianapis.com/search?from-date=${monthAgo}&api-key=${apiKey}&page-size=50`)
       .then(response => response.json())
-      .then(data => this.model.setData(data));
+      .then((data) => {
+        this.model.setData(data.response.results);
+        this.setView();
+      });
+  }
+
+  setView() {
+    const data = this.model.getData();
+
+    this.view.renderNewsList(data);
   }
 }
 

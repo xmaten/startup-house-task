@@ -11,7 +11,7 @@ const controller = new Controller(model, view);
 
 
 const init = () => {
-  controller.fetchNews().then(response => console.log(response));
+  controller.fetchNews();
 };
 
 init();
