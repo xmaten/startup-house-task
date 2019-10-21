@@ -8,6 +8,7 @@ class Controller {
 
     view.bindHandleAddReadLater(this.handleAddReadLater.bind(this));
     view.bindHandleRemoveReadLater(this.handleRemoveReadLater.bind(this));
+    view.bindHandleSearch(this.handleSearch.bind(this));
   }
 
   fetchNews() {
@@ -54,6 +55,12 @@ class Controller {
 
     localStorage.removeItem('readLater');
     localStorage.setItem('readLater', JSON.stringify(newReadLaterList));
+  }
+
+  handleSearch(value) {
+    const foundItems = this.model.getSearchItem(value);
+
+    this.view.renderNewsList(foundItems);
   }
 }
 

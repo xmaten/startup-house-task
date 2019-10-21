@@ -27,6 +27,12 @@ class Model {
 
     return this.readLater;
   }
+
+  getSearchItem(value) {
+    const foundItems = this.data.filter(item => item.webTitle.toLowerCase().includes(value.toLowerCase()));
+
+    return foundItems;
+  }
 }
 
 export default Model;

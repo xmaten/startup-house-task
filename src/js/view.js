@@ -1,7 +1,7 @@
 class View {
   renderNewsList(news) {
     const newsList = document.querySelector('.newsList');
-
+    newsList.innerHTML = '';
     news.forEach((article) => {
       const listItem = document.createElement('li');
       const parsedDate = new Date(article.webPublicationDate).toLocaleDateString('pl-PL');
@@ -66,6 +66,16 @@ class View {
       `;
 
       readLaterList.appendChild(listItem);
+    });
+  }
+
+  bindHandleSearch(callback) {
+    const input = document.getElementById('newsContentSearch');
+
+    input.addEventListener('input', (e) => {
+      const { value } = e.target;
+
+      callback(value);
     });
   }
 }
