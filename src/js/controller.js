@@ -52,7 +52,7 @@ class Controller {
   }
 
   handleRemoveReadLater(newsId) {
-    const data = this.model.getData();
+    const data = this.model.getReadLater();
     const chosenNews = data.filter(n => n.id === newsId);
 
     const newReadLaterList = this.model.removeFromReadLater(...chosenNews);

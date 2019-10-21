@@ -22,6 +22,10 @@ class Model {
     return this.pages;
   }
 
+  getReadLater() {
+    return this.readLater;
+  }
+
   addToReadLater(news) {
     if (this.readLater.filter(item => item.id === news.id).length === 0) {
       this.readLater = [...this.readLater, news];
