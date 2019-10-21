@@ -34,6 +34,17 @@ class Model {
 
     return foundItems;
   }
+
+  filterBySection(section) {
+    let filteredItems = this.data.filter(item => item.sectionName.toLowerCase()
+    === section.toLowerCase());
+
+    if (section === 'all') {
+      filteredItems = this.data;
+    }
+
+    return filteredItems;
+  }
 }
 
 export default Model;
