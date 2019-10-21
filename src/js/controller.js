@@ -9,6 +9,7 @@ class Controller {
     view.bindHandleAddReadLater(this.handleAddReadLater.bind(this));
     view.bindHandleRemoveReadLater(this.handleRemoveReadLater.bind(this));
     view.bindHandleSearch(this.handleSearch.bind(this));
+    view.bindHandlerFilterSection(this.handleFilterBySection.bind(this));
   }
 
   fetchNews() {
@@ -61,6 +62,12 @@ class Controller {
     const foundItems = this.model.getSearchItem(value);
 
     this.view.renderNewsList(foundItems);
+  }
+
+  handleFilterBySection(value) {
+    const filteredBySection = this.model.filterBySection(value);
+
+    this.view.renderNewsList(filteredBySection);
   }
 }
 

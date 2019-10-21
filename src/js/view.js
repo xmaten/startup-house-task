@@ -78,6 +78,14 @@ class View {
       callback(value);
     });
   }
+
+  bindHandlerFilterSection(callback) {
+    const selectEl = document.getElementById('sectionSelect');
+
+    selectEl.addEventListener('change', (e) => {
+      callback(e.target.value);
+    });
+  }
 }
 
 export default View;
