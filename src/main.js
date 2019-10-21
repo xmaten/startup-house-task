@@ -9,4 +9,6 @@ const view = new View();
 
 const controller = new Controller(model, view);
 
+controller.fetchNews();
+
 // Please use https://open-platform.theguardian.com/documentation/

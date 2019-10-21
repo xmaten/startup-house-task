@@ -3,6 +3,10 @@ class Controller {
     this.model = model;
     this.view = view;
   }
+
+  fetchNews() {
+
+  }
 }
 
 export default Controller;
