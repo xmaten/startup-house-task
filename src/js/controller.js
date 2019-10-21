@@ -5,6 +5,9 @@ class Controller {
   constructor(model, view) {
     this.model = model;
     this.view = view;
+
+    view.bindHandleAddReadLater(this.handleAddReadLater.bind(this));
+    view.bindHandleRemoveReadLater(this.handleRemoveReadLater.bind(this));
   }
 
   fetchNews() {
@@ -22,6 +25,35 @@ class Controller {
     const data = this.model.getData();
 
     this.view.renderNewsList(data);
+  }
+
+  handleAddReadLater(newsId) {
+    const data = this.model.getData();
+    const chosenNews = data.filter(n => n.id === newsId);
+
+    const newReadLaterList = this.model.addToReadLater(...chosenNews);
+
+    this.view.renderReadLaterList(newReadLaterList);
+    localStorage.setItem('readLater', JSON.stringify(newReadLaterList));
+  }
+
+  restoreReadLaterList() {
+    if (localStorage.getItem('readLater')) {
+      const readLater = JSON.parse(localStorage.getItem('readLater'));
+      readLater.forEach(item => this.model.addToReadLater(item));
+      this.view.renderReadLaterList(readLater);
+    }
+  }
+
+  handleRemoveReadLater(newsId) {
+    const data = this.model.getData();
+    const chosenNews = data.filter(n => n.id === newsId);
+
+    const newReadLaterList = this.model.removeFromReadLater(...chosenNews);
+    this.view.renderReadLaterList(newReadLaterList);
+
+    localStorage.removeItem('readLater');
+    localStorage.setItem('readLater', JSON.stringify(newReadLaterList));
   }
 }
 
