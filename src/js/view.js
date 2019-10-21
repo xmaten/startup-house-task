@@ -7,7 +7,7 @@ class View {
       const parsedDate = new Date(article.webPublicationDate).toLocaleDateString('pl-PL');
 
       listItem.innerHTML = `
-        <article class="news">
+        <article class="news" id="${article.id}">
           <header>
             <h3>${article.webTitle}</h3>
           </header>
@@ -19,12 +19,42 @@ class View {
           </section>
           <section class="newsActions">
             <a href="${article.webUrl}" target="_blank" rel="noopener" class="button">Full article</a>
-            <button class="button button-outline">Read Later</button>
+            <button class="button button-outline js-addToReadLater">Read Later</button>
           </section>
         </article>
       `;
 
       newsList.appendChild(listItem);
+    });
+  }
+
+  bindHandleAddLater(callback) {
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('js-addToReadLater')) {
+        const clickedEl = e.target;
+        const newsId = clickedEl.parentNode.parentNode.id;
+
+        callback(newsId);
+      }
+    });
+  }
+
+  renderReadLaterList(news) {
+    const readLaterList = document.querySelector('.readLaterList');
+    readLaterList.innerHTML = '';
+
+    news.forEach((n) => {
+      const listItem = document.createElement('li');
+
+      listItem.innerHTML = `
+        <h4 class="readLaterItem-title">${n.webTitle}</h4>
+        <section>
+          <a href="${n.webUrl}" target="_blank" rel="noopener" class="button button-clear">Read</a>
+          <button class="button button-clear">Remove</button>
+        </section>
+      `;
+
+      readLaterList.appendChild(listItem);
     });
   }
 }

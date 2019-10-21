@@ -1,6 +1,7 @@
 class Model {
   constructor(data) {
     this.data = data;
+    this.readLater = [];
   }
 
   getData() {
@@ -9,6 +10,12 @@ class Model {
 
   setData(newData) {
     this.data = newData;
+  }
+
+  addToReadLater(news) {
+    this.readLater.push(news);
+
+    return this.readLater;
   }
 }
 

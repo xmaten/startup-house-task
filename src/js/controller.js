@@ -5,6 +5,8 @@ class Controller {
   constructor(model, view) {
     this.model = model;
     this.view = view;
+
+    view.bindHandleAddLater(this.handleAddReadLater.bind(this));
   }
 
   fetchNews() {
@@ -22,6 +24,15 @@ class Controller {
     const data = this.model.getData();
 
     this.view.renderNewsList(data);
+  }
+
+  handleAddReadLater(newsId) {
+    const data = this.model.getData();
+    const chosenNews = data.filter(n => n.id === newsId);
+
+    const newReadLaterList = this.model.addToReadLater(...chosenNews);
+
+    this.view.renderReadLaterList(newReadLaterList);
   }
 }
 
