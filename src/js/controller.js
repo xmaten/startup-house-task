@@ -28,7 +28,7 @@ class Controller {
   setView() {
     const data = this.model.getData();
     const pages = this.model.getPages();
-
+    console.log(data);
     this.view.renderNewsList(data);
     this.view.renderPagination(pages);
   }
