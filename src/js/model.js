@@ -13,7 +13,9 @@ class Model {
   }
 
   addToReadLater(news) {
-    this.readLater.push(news);
+    if (!this.readLater.includes(news)) {
+      this.readLater = [...this.readLater, news];
+    }
 
     return this.readLater;
   }

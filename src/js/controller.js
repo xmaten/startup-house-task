@@ -6,7 +6,7 @@ class Controller {
     this.model = model;
     this.view = view;
 
-    view.bindHandleAddLater(this.handleAddReadLater.bind(this));
+    view.bindHandleAddReadLater(this.handleAddReadLater.bind(this));
   }
 
   fetchNews() {
@@ -39,7 +39,7 @@ class Controller {
   restoreReadLaterList() {
     if (localStorage.getItem('readLater')) {
       const readLater = JSON.parse(localStorage.getItem('readLater'));
-
+      readLater.forEach(item => this.model.addToReadLater(item));
       this.view.renderReadLaterList(readLater);
     }
   }

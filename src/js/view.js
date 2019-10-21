@@ -28,7 +28,7 @@ class View {
     });
   }
 
-  bindHandleAddLater(callback) {
+  bindHandleAddReadLater(callback) {
     document.addEventListener('click', (e) => {
       if (e.target.classList.contains('js-addToReadLater')) {
         const clickedEl = e.target;
