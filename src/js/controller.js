@@ -10,14 +10,16 @@ class Controller {
     view.bindHandleRemoveReadLater(this.handleRemoveReadLater.bind(this));
     view.bindHandleSearch(this.handleSearch.bind(this));
     view.bindHandlerFilterSection(this.handleFilterBySection.bind(this));
+    view.bindPaginationChange(this.fetchNews.bind(this));
   }
 
-  fetchNews() {
+  fetchNews(page = 1) {
     const monthAgo = getMonthAgo();
 
-    fetch(`https://content.guardianapis.com/search?from-date=${monthAgo}&api-key=${apiKey}&page-size=50`)
+    fetch(`https://content.guardianapis.com/search?from-date=${monthAgo}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`)
       .then(response => response.json())
       .then((data) => {
+        this.model.setPages(data.response.pages);
         this.model.setData(data.response.results);
         this.setView();
       });
@@ -25,8 +27,10 @@ class Controller {
 
   setView() {
     const data = this.model.getData();
+    const pages = this.model.getPages();
 
     this.view.renderNewsList(data);
+    this.view.renderPagination(pages);
   }
 
   handleAddReadLater(newsId) {
