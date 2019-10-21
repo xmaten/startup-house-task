@@ -15,9 +15,10 @@ class Controller {
   fetchNews() {
     const monthAgo = getMonthAgo();
 
-    fetch(`https://content.guardianapis.com/search?from-date=${monthAgo}&order-by=newest&page=1&api-key=${apiKey}&page-size=50`)
+    fetch(`https://content.guardianapis.com/search?from-date=${monthAgo}&order-by=newest&page=1&api-key=${apiKey}&page-size=10`)
       .then(response => response.json())
       .then((data) => {
+        this.model.setPages(data.response.pages);
         this.model.setData(data.response.results);
         this.setView();
       });
@@ -25,8 +26,10 @@ class Controller {
 
   setView() {
     const data = this.model.getData();
+    const pages = this.model.getPages();
 
     this.view.renderNewsList(data);
+    this.view.renderPagination(pages);
   }
 
   handleAddReadLater(newsId) {

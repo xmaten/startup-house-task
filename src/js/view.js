@@ -86,6 +86,18 @@ class View {
       callback(e.target.value);
     });
   }
+
+  renderPagination(pages) {
+    const pagesSelect = document.getElementById('activePageSelect');
+
+    for (let i = 0; i <= pages; i += 1) {
+      const option = document.createElement('option');
+      option.value = i;
+      option.textContent = i;
+
+      pagesSelect.appendChild(option);
+    }
+  }
 }
 
 export default View;
