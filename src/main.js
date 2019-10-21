@@ -9,6 +9,11 @@ const view = new View();
 
 const controller = new Controller(model, view);
 
-controller.fetchNews();
+
+const init = () => {
+  controller.fetchNews().then(response => console.log(response));
+};
+
+init();
 
 // Please use https://open-platform.theguardian.com/documentation/
