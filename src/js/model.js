@@ -23,7 +23,7 @@ class Model {
   }
 
   addToReadLater(news) {
-    if (!this.readLater.includes(news)) {
+    if (this.readLater.filter(item => item.id === news.id).length === 0) {
       this.readLater = [...this.readLater, news];
     }
 
