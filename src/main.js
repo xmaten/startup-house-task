@@ -9,7 +9,6 @@ const view = new View();
 
 const controller = new Controller(model, view);
 
-
 const init = () => {
   controller.fetchNews();
   controller.restoreReadLaterList();

@@ -5,8 +5,7 @@ class View {
     news.forEach((article) => {
       const listItem = document.createElement('li');
       const parsedDate = new Date(article.webPublicationDate).toLocaleDateString('pl-PL');
-
-      listItem.innerHTML = `
+      const template = `
         <article class="news" data-id="${article.id}">
           <header>
             <h3>${article.webTitle}</h3>
@@ -24,6 +23,7 @@ class View {
         </article>
       `;
 
+      listItem.insertAdjacentHTML('beforeend', template);
       newsList.appendChild(listItem);
     });
   }
@@ -56,8 +56,7 @@ class View {
 
     news.forEach((n) => {
       const listItem = document.createElement('li');
-
-      listItem.innerHTML = `
+      const template = `
         <h4 class="readLaterItem-title">${n.webTitle}</h4>
         <section data-id="${n.id}">
           <a href="${n.webUrl}" target="_blank" rel="noopener" class="button button-clear">Read</a>
@@ -65,6 +64,7 @@ class View {
         </section>
       `;
 
+      listItem.insertAdjacentHTML('beforeend', template);
       readLaterList.appendChild(listItem);
     });
   }
