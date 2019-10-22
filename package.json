@@ -9,7 +9,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev": "parcel src/index.html",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
