@@ -26,7 +26,9 @@ class Model {
   }
 
   addToReadLater(news) {
-    if (this.readLater.filter(item => item.id === news.id).length === 0) {
+    const isNotInReadLater = this.readLater.filter(item => item.id === news.id).length === 0;
+
+    if (isNotInReadLater) {
       this.readLater = [...this.readLater, news];
     }
 
@@ -42,15 +44,17 @@ class Model {
   }
 
   getSearchItem(value) {
-    const foundItems = this.data.filter(item => item.webTitle.toLowerCase()
-      .includes(value.toLowerCase()));
+    const { data } = this;
+    const valueLC = value.toLowerCase();
+    const foundItems = data.filter(item => item.webTitle.toLowerCase().includes(valueLC));
 
     return foundItems;
   }
 
   filterBySection(section) {
-    let filteredItems = this.data.filter(item => item.sectionName.toLowerCase()
-    === section.toLowerCase());
+    let filteredItems = this.data.filter(
+      item => item.sectionName.toLowerCase() === section.toLowerCase(),
+    );
 
     if (section === 'all') {
       filteredItems = this.data;
