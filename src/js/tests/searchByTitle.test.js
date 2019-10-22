@@ -32,3 +32,12 @@ test('It filters by title if value is in mixed case', () => {
     },
   ]);
 });
+
+test('It filters by title but doesnt find anything', () => {
+  const model = new Model(mockData);
+  const value = 'shsade';
+
+  const filtered = model.getSearchItem(value).map(item => ({ webTitle: item.webTitle }));
+
+  expect(filtered).toEqual([]);
+});

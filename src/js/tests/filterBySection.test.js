@@ -16,3 +16,13 @@ test('It filters by section', () => {
     },
   ]);
 });
+
+
+test('It filters by section but doesnt find anything', () => {
+  const model = new Model(mockData);
+  const section = 'culture';
+
+  const filtered = model.filterBySection(section).map(item => ({ webTitle: item.webTitle }));
+
+  expect(filtered).toEqual([]);
+});
