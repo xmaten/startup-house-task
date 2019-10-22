@@ -2,7 +2,6 @@ class Model {
   constructor(data) {
     this.data = data;
     this.readLater = [];
-    this.page = 1;
     this.pages = 1;
   }
 
@@ -14,12 +13,12 @@ class Model {
     this.data = newData;
   }
 
-  setPages(pagesNumber) {
-    this.pages = pagesNumber;
-  }
-
   getPages() {
     return this.pages;
+  }
+
+  setPages(pagesNumber) {
+    this.pages = pagesNumber;
   }
 
   getReadLater() {
