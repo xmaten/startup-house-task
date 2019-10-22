@@ -1,5 +1,19 @@
 # JS Recruitment Task
 
+## My approach
+
+When I saw all the requirements I immediately thought about using MVC architecture. It helped me to easily separate different parts of app - getting data, displaying data and manipulating it. Code is more readable and also it's easy to write unit tests.
+
+I began with creating simple structure and I added different methods as I went task after task. After each task I was manually testing how it works and fixing all the bugs I found. If there was possibility I tried to extract smaller, possibly reusable functions like `getMonthAgo`. When I had all the tasks completed I started to add some unit tests as well as refactoring little bits of code.
+
+When it comes to things I did:
+
+- I get news using fetch
+- I store news added to Read later in Local Storage
+- I run my tests using Jest
+
+I also had some problems running Jest so I had to install some additional babel plugins.
+
 ## Description
 
 We would like you to create an application that will display list of news fetched from The Guardian. You should use their API, which can be found here: [https://open-platform.theguardian.com/](https://open-platform.theguardian.com/)
