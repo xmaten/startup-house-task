@@ -63,9 +63,9 @@ class Controller {
   }
 
   handleSearch(value) {
-    const foundItems = this.model.getSearchItem(value);
+    const searched = this.model.getSearchItem(value);
 
-    this.view.renderNewsList(foundItems);
+    this.view.renderNewsList(searched);
   }
 
   handleFilterBySection(value) {
