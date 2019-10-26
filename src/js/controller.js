@@ -12,7 +12,7 @@ class Controller {
     view.bindPaginationChange(this.handlePageChange.bind(this));
   }
 
-  fetchNews(page = 1, searchParam = '', section = '') {
+  async fetchNews(page = 1, searchParam = '', section = '') {
     const monthAgo = getMonthAgo();
     const apiKey = process.env.API_KEY;
     this.startLoader();
@@ -27,18 +27,18 @@ class Controller {
       endpoint = `https://content.guardianapis.com/search?section=${section}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`;
     }
 
-    fetch(endpoint)
-      .then(response => response.json())
-      .then((data) => {
-        this.model.setPages(data.response.pages);
-        this.model.setData(data.response.results);
-        this.setView();
-        this.clearLoader();
-      })
-      .catch(() => {
-        this.handleError();
-        this.clearLoader();
-      });
+    try {
+      const request = await fetch(endpoint);
+      const data = await request.json();
+
+      this.model.setPages(data.response.pages);
+      this.model.setData(data.response.results);
+      this.setView();
+      this.clearLoader();
+    } catch (err) {
+      this.handleError();
+      this.clearLoader();
+    }
   }
 
   setView() {
