@@ -12,53 +12,22 @@ class Controller {
     view.bindPaginationChange(this.handlePageChange.bind(this));
   }
 
-  fetchNews(page = 1) {
+  fetchNews(page = 1, searchParam = '', section = '') {
     const monthAgo = getMonthAgo();
     const apiKey = process.env.API_KEY;
     this.startLoader();
 
-    fetch(
-      `https://content.guardianapis.com/search?from-date=${monthAgo}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`,
-    )
-      .then(response => response.json())
-      .then((data) => {
-        this.model.setPages(data.response.pages);
-        this.model.setData(data.response.results);
-        this.setView();
-        this.clearLoader();
-      })
-      .catch(() => {
-        this.handleError();
-        this.clearLoader();
-      });
-  }
+    let endpoint = `https://content.guardianapis.com/search?from-date=${monthAgo}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`;
 
-  fetchNewsWithSearchParam(page = 1, value) {
-    const apiKey = process.env.API_KEY;
-    this.startLoader();
+    if (searchParam !== '' && searchParam !== '') {
+      endpoint = `https://content.guardianapis.com/search?q=${searchParam}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`;
+    }
 
-    fetch(
-      `https://content.guardianapis.com/search?q=${value}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`,
-    )
-      .then(response => response.json())
-      .then((data) => {
-        this.model.setPages(data.response.pages);
-        this.model.setData(data.response.results);
-        this.setView();
-        this.clearLoader();
-      })
-      .catch(() => {
-        this.handleError();
-        this.clearLoader();
-      });
-  }
+    if (section !== 'all' && section !== '') {
+      endpoint = `https://content.guardianapis.com/search?section=${section}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`;
+    }
 
-  fetchNewsWithSection(page = 1, section) {
-    const apiKey = process.env.API_KEY;
-    this.startLoader();
-    fetch(
-      `https://content.guardianapis.com/search?section=${section}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`,
-    )
+    fetch(endpoint)
       .then(response => response.json())
       .then((data) => {
         this.model.setPages(data.response.pages);
@@ -122,27 +91,29 @@ class Controller {
   }
 
   handleSearch(value) {
-    this.fetchNewsWithSearchParam(1, value);
+    const page = 1;
+    const searchValue = value;
+    const section = '';
+
+    this.fetchNews(page, searchValue, section);
     const searched = this.model.getSearchItem(value);
 
     this.view.renderNewsList(searched);
   }
 
   handleFilterBySection(value) {
-    this.fetchNewsWithSection(1, value);
+    const page = 1;
+    const searchValue = '';
+    const section = value;
+
+    this.fetchNews(page, searchValue, section);
     const filteredBySection = this.model.filterBySection(value);
 
     this.view.renderNewsList(filteredBySection);
   }
 
   handlePageChange(page, searchValue, section) {
-    if (searchValue === '' && section === 'all') {
-      this.fetchNews(page);
-    } else if (section !== 'all') {
-      this.fetchNewsWithSection(page, section);
-    } else {
-      this.fetchNewsWithSearchParam(page, searchValue);
-    }
+    this.fetchNews(page, searchValue, section);
   }
 }
 
