@@ -23,6 +23,9 @@ class Controller {
         this.model.setPages(data.response.pages);
         this.model.setData(data.response.results);
         this.setView();
+      })
+      .catch(() => {
+        this.handleError();
       });
   }
 
@@ -32,6 +35,10 @@ class Controller {
 
     this.view.renderNewsList(data);
     this.view.renderPagination(pages);
+  }
+
+  handleError() {
+    this.view.renderError();
   }
 
   handleAddReadLater(newsId) {

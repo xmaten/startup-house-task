@@ -4,7 +4,9 @@ class View {
     newsList.innerHTML = '';
     news.forEach((article) => {
       const listItem = document.createElement('li');
-      const parsedDate = new Date(article.webPublicationDate).toLocaleDateString('pl-PL');
+      const parsedDate = new Date(
+        article.webPublicationDate,
+      ).toLocaleDateString('pl-PL');
       const template = `
         <article class="news" data-id="${article.id}">
           <header>
@@ -105,6 +107,15 @@ class View {
       const selectedPage = pagesSelect.options[pagesSelect.selectedIndex].value;
       callback(selectedPage);
     });
+  }
+
+  renderError() {
+    const newsList = document.querySelector('.newsList');
+    const errorContainer = document.createElement('p');
+    const errorMessage = 'Sorry, there was an error while downloading news. Please try again later';
+    errorContainer.insertAdjacentHTML('beforeend', errorMessage);
+
+    newsList.appendChild(errorContainer);
   }
 }
 
