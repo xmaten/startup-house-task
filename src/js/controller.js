@@ -53,6 +53,25 @@ class Controller {
       });
   }
 
+  fetchNewsWithSection(page = 1, section) {
+    const apiKey = process.env.API_KEY;
+    this.startLoader();
+    fetch(
+      `https://content.guardianapis.com/search?section=${section}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`,
+    )
+      .then(response => response.json())
+      .then((data) => {
+        this.model.setPages(data.response.pages);
+        this.model.setData(data.response.results);
+        this.setView();
+        this.clearLoader();
+      })
+      .catch(() => {
+        this.handleError();
+        this.clearLoader();
+      });
+  }
+
   setView() {
     const data = this.model.getData();
     const pages = this.model.getPages();
@@ -110,14 +129,17 @@ class Controller {
   }
 
   handleFilterBySection(value) {
+    this.fetchNewsWithSection(1, value);
     const filteredBySection = this.model.filterBySection(value);
 
     this.view.renderNewsList(filteredBySection);
   }
 
-  handlePageChange(page, searchValue) {
-    if (searchValue === '') {
+  handlePageChange(page, searchValue, section) {
+    if (searchValue === '' && section === 'all') {
       this.fetchNews(page);
+    } else if (section !== 'all') {
+      this.fetchNewsWithSection(page, section);
     } else {
       this.fetchNewsWithSearchParam(page, searchValue);
     }

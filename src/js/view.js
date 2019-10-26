@@ -105,8 +105,10 @@ class View {
     const pagesSelect = document.getElementById('activePageSelect');
     pagesSelect.addEventListener('change', () => {
       const searchInput = document.getElementById('newsContentSearch').value;
+      const sectionValue = document.getElementById('sectionSelect').value;
       const selectedPage = pagesSelect.options[pagesSelect.selectedIndex].value;
-      callback(selectedPage, searchInput);
+
+      callback(selectedPage, searchInput, sectionValue);
     });
   }
 
