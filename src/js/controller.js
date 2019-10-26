@@ -1,5 +1,4 @@
 import getMonthAgo from './helpers/getMonthAgo';
-import apiKey from './helpers/constants';
 
 class Controller {
   constructor(model, view) {
@@ -15,8 +14,10 @@ class Controller {
 
   fetchNews(page = 1) {
     const monthAgo = getMonthAgo();
-
-    fetch(`https://content.guardianapis.com/search?from-date=${monthAgo}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`)
+    const apiKey = process.env.API_KEY;
+    fetch(
+      `https://content.guardianapis.com/search?from-date=${monthAgo}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`,
+    )
       .then(response => response.json())
       .then((data) => {
         this.model.setPages(data.response.pages);
