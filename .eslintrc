@@ -6,5 +6,6 @@
   },
   "rules": {
     "class-methods-use-this": 0
-  }
+  },
+  "parser": "babel-eslint"
 }

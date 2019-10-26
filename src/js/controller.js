@@ -5,11 +5,11 @@ class Controller {
     this.model = model;
     this.view = view;
 
-    view.bindHandleAddReadLater(this.handleAddReadLater.bind(this));
-    view.bindHandleRemoveReadLater(this.handleRemoveReadLater.bind(this));
-    view.bindHandleSearch(this.handleSearch.bind(this));
-    view.bindHandlerFilterSection(this.handleFilterBySection.bind(this));
-    view.bindPaginationChange(this.handlePageChange.bind(this));
+    view.bindHandleAddReadLater(this.handleAddReadLater);
+    view.bindHandleRemoveReadLater(this.handleRemoveReadLater);
+    view.bindHandleSearch(this.handleSearch);
+    view.bindHandlerFilterSection(this.handleFilterBySection);
+    view.bindPaginationChange(this.handlePageChange);
   }
 
   async fetchNews(page = 1, searchParam = '', section = '') {
@@ -61,7 +61,7 @@ class Controller {
     this.view.renderError();
   }
 
-  handleAddReadLater(newsId) {
+  handleAddReadLater = (newsId) => {
     const data = this.model.getData();
     const chosenNews = data.filter(n => n.id === newsId);
 
@@ -69,17 +69,17 @@ class Controller {
 
     this.view.renderReadLaterList(newReadLaterList);
     localStorage.setItem('readLater', JSON.stringify(newReadLaterList));
-  }
+  };
 
-  restoreReadLaterList() {
+  restoreReadLaterList = () => {
     if (localStorage.getItem('readLater')) {
       const readLater = JSON.parse(localStorage.getItem('readLater'));
       readLater.forEach(item => this.model.addToReadLater(item));
       this.view.renderReadLaterList(readLater);
     }
-  }
+  };
 
-  handleRemoveReadLater(newsId) {
+  handleRemoveReadLater = (newsId) => {
     const data = this.model.getReadLater();
     const chosenNews = data.filter(n => n.id === newsId);
 
@@ -88,9 +88,9 @@ class Controller {
 
     localStorage.removeItem('readLater');
     localStorage.setItem('readLater', JSON.stringify(newReadLaterList));
-  }
+  };
 
-  handleSearch(value) {
+  handleSearch = (value) => {
     const page = 1;
     const searchValue = value;
     const section = '';
@@ -99,9 +99,9 @@ class Controller {
     const searched = this.model.getSearchItem(value);
 
     this.view.renderNewsList(searched);
-  }
+  };
 
-  handleFilterBySection(value) {
+  handleFilterBySection = (value) => {
     const page = 1;
     const searchValue = '';
     const section = value;
@@ -110,11 +110,11 @@ class Controller {
     const filteredBySection = this.model.filterBySection(value);
 
     this.view.renderNewsList(filteredBySection);
-  }
+  };
 
-  handlePageChange(page, searchValue, section) {
+  handlePageChange = (page, searchValue, section) => {
     this.fetchNews(page, searchValue, section);
-  }
+  };
 }
 
 export default Controller;
