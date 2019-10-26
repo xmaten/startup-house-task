@@ -9,12 +9,14 @@ class Controller {
     view.bindHandleRemoveReadLater(this.handleRemoveReadLater.bind(this));
     view.bindHandleSearch(this.handleSearch.bind(this));
     view.bindHandlerFilterSection(this.handleFilterBySection.bind(this));
-    view.bindPaginationChange(this.fetchNews.bind(this));
+    view.bindPaginationChange(this.handlePageChange.bind(this));
   }
 
   fetchNews(page = 1) {
     const monthAgo = getMonthAgo();
     const apiKey = process.env.API_KEY;
+    this.startLoader();
+
     fetch(
       `https://content.guardianapis.com/search?from-date=${monthAgo}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`,
     )
@@ -23,9 +25,31 @@ class Controller {
         this.model.setPages(data.response.pages);
         this.model.setData(data.response.results);
         this.setView();
+        this.clearLoader();
       })
       .catch(() => {
         this.handleError();
+        this.clearLoader();
+      });
+  }
+
+  fetchNewsWithSearchParam(page = 1, value) {
+    const apiKey = process.env.API_KEY;
+    this.startLoader();
+
+    fetch(
+      `https://content.guardianapis.com/search?q=${value}&order-by=newest&page=${page}&api-key=${apiKey}&page-size=10`,
+    )
+      .then(response => response.json())
+      .then((data) => {
+        this.model.setPages(data.response.pages);
+        this.model.setData(data.response.results);
+        this.setView();
+        this.clearLoader();
+      })
+      .catch(() => {
+        this.handleError();
+        this.clearLoader();
       });
   }
 
@@ -35,6 +59,14 @@ class Controller {
 
     this.view.renderNewsList(data);
     this.view.renderPagination(pages);
+  }
+
+  startLoader() {
+    this.view.handlerLoader(true);
+  }
+
+  clearLoader() {
+    this.view.handlerLoader(false);
   }
 
   handleError() {
@@ -71,6 +103,7 @@ class Controller {
   }
 
   handleSearch(value) {
+    this.fetchNewsWithSearchParam(1, value);
     const searched = this.model.getSearchItem(value);
 
     this.view.renderNewsList(searched);
@@ -80,6 +113,14 @@ class Controller {
     const filteredBySection = this.model.filterBySection(value);
 
     this.view.renderNewsList(filteredBySection);
+  }
+
+  handlePageChange(page, searchValue) {
+    if (searchValue === '') {
+      this.fetchNews(page);
+    } else {
+      this.fetchNewsWithSearchParam(page, searchValue);
+    }
   }
 }
 

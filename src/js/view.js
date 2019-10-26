@@ -104,8 +104,9 @@ class View {
   bindPaginationChange(callback) {
     const pagesSelect = document.getElementById('activePageSelect');
     pagesSelect.addEventListener('change', () => {
+      const searchInput = document.getElementById('newsContentSearch').value;
       const selectedPage = pagesSelect.options[pagesSelect.selectedIndex].value;
-      callback(selectedPage);
+      callback(selectedPage, searchInput);
     });
   }
 
@@ -116,6 +117,15 @@ class View {
     errorContainer.insertAdjacentHTML('beforeend', errorMessage);
 
     newsList.appendChild(errorContainer);
+  }
+
+  handlerLoader(isLoading) {
+    const loader = document.querySelector('.js-loader');
+    if (isLoading) {
+      loader.classList.add('active');
+    } else {
+      loader.classList.remove('active');
+    }
   }
 }
 
